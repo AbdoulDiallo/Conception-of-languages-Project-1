@@ -667,6 +667,8 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 	static int		argCount;
 	static int		argTableSize;
 	static const char **	argTable;
+	
+	char * test;
 
 	/*
 	 * Clear the returned values until we know them.
@@ -727,6 +729,14 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 		while (*cp)
 		{
 			ch = *cp++;
+			
+			if(ch == '$'){
+				while(*cpOut){
+					char *varEnv = (char *)malloc(sizeof(char));
+					if(*cpOut != ''
+				}
+				test = "a";
+			}
 
 			/*
 			 * If we are not in a quote and we see a blank then
@@ -911,6 +921,7 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 	/*
 	 * Null terminate the argument list and return it.
 	 */
+	 argTable[argCount-1] = test;
 	argTable[argCount] = NULL;
 
 	*retArgc = argCount;
