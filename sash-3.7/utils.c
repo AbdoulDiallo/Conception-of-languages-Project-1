@@ -743,7 +743,9 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 			
 			//my code
 			if(ch == '$'){
-				envSymbol = TRUE;
+				if(! isWildCard(*cp)){
+					envSymbol = TRUE;
+				}
 			}
 
 			/*

@@ -7,7 +7,7 @@
 # The HAVE_BSD_MOUNT definition makes -mount and -umount work on BSD.
 # The MOUNT_TYPE definition sets the default file system type for -mount.
 #
-HAVE_GZIP		= 1
+HAVE_GZIP		= 0
 HAVE_LINUX_ATTR		= 0
 HAVE_LINUX_MOUNT	= 0
 HAVE_BSD_MOUNT		= 0
