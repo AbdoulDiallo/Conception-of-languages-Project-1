@@ -648,6 +648,9 @@ match(const char * text, const char * pattern)
 BOOL
 makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 {
+	// my code
+	setenv("DEUX", "2", 0);
+
 	const char *		argument;
 	char *			cp;
 	char *			cpOut;
@@ -661,6 +664,9 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 	int			quote;
 	BOOL			quotedWildCards;
 	BOOL			unquotedWildCards;
+	
+	//my code
+	BOOL			envSymbol;
 
 	static int		stringsLength;
 	static char *		strings;
@@ -668,7 +674,9 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 	static int		argTableSize;
 	static const char **	argTable;
 	
-	char * test;
+	
+	// my code
+	char *test;
 
 	/*
 	 * Clear the returned values until we know them.
@@ -719,6 +727,9 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 		quote = '\0';
 		quotedWildCards = FALSE;
 		unquotedWildCards = FALSE;
+		
+		//my code
+		envSymbol = FALSE;
 
 		/*
 		 * Loop over the string collecting the next argument while
@@ -730,12 +741,9 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 		{
 			ch = *cp++;
 			
+			//my code
 			if(ch == '$'){
-				while(*cpOut){
-					char *varEnv = (char *)malloc(sizeof(char));
-					if(*cpOut != ''
-				}
-				test = "a";
+				envSymbol = TRUE;
 			}
 
 			/*
@@ -851,6 +859,13 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 			return FALSE;
 		}
 
+
+		// my code
+		if(envSymbol){
+			char *envVal = argument + 1;
+			argument = getenv(envVal);
+		}
+
 		/*
 		 * Expand the argument into the matching filenames or accept
 		 * it as is depending on whether there were any unquoted
@@ -921,7 +936,11 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 	/*
 	 * Null terminate the argument list and return it.
 	 */
-	 argTable[argCount-1] = test;
+	 
+	// my code 
+	//argTable[argCount-1] = test;
+	
+	
 	argTable[argCount] = NULL;
 
 	*retArgc = argCount;
