@@ -22,7 +22,7 @@ CFLAGS = -g -Wall -Wextra -Wmissing-prototypes \
 	-DMOUNT_TYPE=$(MOUNT_TYPE)
 
 # LDFLAGS = -static -s
-LIBS = -lz
+#LIBS = -lz
 
 
 BINDIR = /bin
