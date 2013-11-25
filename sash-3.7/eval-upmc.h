@@ -20,7 +20,7 @@ class AST
         void SetvalueInt(int val) { _valueInt = val; }
         double GetvalueDouble() { return _valueDouble; }
         void SetvalueDouble(double val) { _valueDouble = val; }
-	Operateur GetOperateur() { return _op; }
+		Operateur GetOperateur() { return _op; }
         void SetOperateur(Operateur op) { _op = op; }
 
 

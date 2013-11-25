@@ -38,7 +38,7 @@ sash:	$(OBJS)
 	g++ eval-upmc-main.cpp eval-upmc.cpp -o eval-upmc
 
 clean:
-	rm -f $(OBJS) sash eval-upmc
+	rm -f $(OBJS) sash eval-upmc.o eval-upmc *~
 
 install: sash
 	cp sash $(BINDIR)/sash

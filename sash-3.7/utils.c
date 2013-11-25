@@ -8,6 +8,9 @@
 
 #include "sash.h"
 
+//my code
+//#include "eval-upmc.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
@@ -667,16 +670,14 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 	
 	//my code
 	BOOL			envSymbol;
+	char *exprToEvaluate = (char *) malloc(sizeof(char));
+	strcpy(exprToEvaluate, "");
 
 	static int		stringsLength;
 	static char *		strings;
 	static int		argCount;
 	static int		argTableSize;
 	static const char **	argTable;
-	
-	
-	// my code
-	char *test;
 
 	/*
 	 * Clear the returned values until we know them.
@@ -745,6 +746,32 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 			if(ch == '$'){
 				if(! isWildCard(*cp)){
 					envSymbol = TRUE;
+				}
+				if(*cp == '['){
+					do{
+						ch = *(++cp);
+						char *operand = (char *)malloc(sizeof(char));
+						strcpy(operand, "");
+						while((ch != '\0') && (ch != ']') && 
+								(ch != '+') && (ch != '-') && 
+								(ch != '*') && (ch != '/')){
+							strcat(operand, &ch);
+							ch = *(++cp);
+						}
+						int retArgc; 
+						const char ** retArgv;
+						if(makeArgs(operand, &retArgc, &retArgv)){
+							strcat(exprToEvaluate, *retArgv);
+						}
+						if((ch == '+') || (ch =='-') || (ch =='*') || (ch =='/')){
+							strcat(exprToEvaluate, &ch);
+						}
+					} while((ch != '\0') && (ch != ']'));
+					argument = exprToEvaluate;
+					//AST *a = new AST(1);
+					//AST *b = a->Parse(exprToEvaluate);
+					//double res = b->eval();
+					//sprintf(argument, "%f", res);
 				}
 			}
 
@@ -940,7 +967,7 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 	 */
 	 
 	// my code to change
-	//argTable[argCount-1] = test;
+	//argTable[argCount-1] = "";
 	
 	
 	argTable[argCount] = NULL;
