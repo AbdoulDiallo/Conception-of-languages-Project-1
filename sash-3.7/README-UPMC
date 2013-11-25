@@ -1,17 +1,44 @@
-This is release 3.7 of sash, my stand-alone shell for Linux or other systems.
+enum Operateur {PLUS, MINUS, MULT, DIV, INTEGER, DOUBLE, NOTHING};
 
-The purpose of this program is to make system recovery possible in
-many cases where there are missing shared libraries or executables.
-It does this by firstly being linked statically, and secondly by
-including versions of many of the standard utilities within itself.
-Read the sash.1 documentation for more details.
+/* 
+my AST can be :
+	1. a tree of what the root is an operator, and the children are 2 operands
+	2. a term (a leaf)
+*/
+		
 
-Type "make install" to build and install the program and man page.
+class AST
+{
+    public:
 
-Several options in the Makefile can be changed to build sash for
-other UNIX-like systems.  In particular, dependencies on Linux file
-systems can be removed and the mount command can be configured.
+	// constructor
+        AST();
+        AST(Operateur op, AST * left, AST * right);
+        AST(int valueInt );
+        AST(double valueDouble );
 
-David I. Bell
-dbell@canb.auug.org.au
-12 January 2004
+	// methods
+        AST *Parse(std::string& theExpress );
+        AST *Getleft() { return _left; }
+        void Setleft(AST *val) { _left = val; }
+        AST *Getright() { return _right; }
+        void Setright(AST *val) { _right = val; }
+        int GetvalueInt() { return _valueInt; }
+        void SetvalueInt(int val) { _valueInt = val; }
+        double GetvalueDouble() { return _valueDouble; }
+        void SetvalueDouble(double val) { _valueDouble = val; }
+        Operateur GetOperateur() { return _op; }
+        void SetOperateur(Operateur op) { _op = op; }
+        double eval();
+
+
+    protected:
+    private:
+        Operateur _op;
+        AST *_left;
+        AST *_right;
+        int _valueInt;
+        double _valueDouble;
+
+};
+
