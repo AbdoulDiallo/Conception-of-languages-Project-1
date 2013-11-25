@@ -10,6 +10,7 @@
 
 //my code
 //#include "eval-upmc.h"
+#include "eval-upmc-wrapper.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -767,13 +768,13 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 							strcat(exprToEvaluate, &ch);
 						}
 					} while((ch != '\0') && (ch != ']'));
-					argument = exprToEvaluate;
-					//AST *a = new AST(1);
-					//AST *b = a->Parse(exprToEvaluate);
-					//double res = b->eval();
-					//sprintf(argument, "%f", res);
+					argument = (char *) malloc (sizeof(char));
+					sprintf(argument, "%.2f", eval_expr(exprToEvaluate));
 				}
 			}
+
+
+
 
 			/*
 			 * If we are not in a quote and we see a blank then

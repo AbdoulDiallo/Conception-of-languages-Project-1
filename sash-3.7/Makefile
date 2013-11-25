@@ -28,17 +28,25 @@ CFLAGS = -g -Wall -Wextra -Wmissing-prototypes \
 BINDIR = /bin
 MANDIR = /usr/man/man1
 
+All: sash
 
 OBJS = sash.o cmds.o cmd_dd.o cmd_ed.o cmd_grep.o cmd_ls.o cmd_tar.o \
 	cmd_gzip.o cmd_find.o cmd_file.o cmd_chattr.o cmd_ar.o utils.o
 
 
-sash:	$(OBJS)
-	$(CC) $(LDFLAGS) -o sash $(OBJS) $(LIBS)
+eval-upmc.o : eval-upmc.h eval-upmc.cpp
+	g++ -c eval-upmc.cpp -o eval-upmc.o
+
+eval-upmc-wrapper.o : eval-upmc.h eval-upmc-wrapper.h eval-upmc-wrapper.cpp
+	g++ -c eval-upmc-wrapper.cpp -o eval-upmc-wrapper.o
+
+
+sash:	$(OBJS) eval-upmc.o eval-upmc-wrapper.o
+	g++ $(LDFLAGS) -o sash $(OBJS) eval-upmc.o eval-upmc-wrapper.o  $(LIBS)
 	g++ eval-upmc-main.cpp eval-upmc.cpp -o eval-upmc
 
 clean:
-	rm -f $(OBJS) sash eval-upmc.o eval-upmc *~
+	rm -f $(OBJS) sash eval-upmc.o eval-upmc eval-upmc-wrapper.o *~
 
 install: sash
 	cp sash $(BINDIR)/sash
