@@ -1,5 +1,5 @@
 #include <iostream>
-#include "include/AST.h"
+#include "eval-upmc.h"
 
 
 using namespace std;
@@ -18,7 +18,7 @@ int main()
     AST *b= new AST(PLUS,b1 , b2);
     AST *c= new AST(PLUS,a , b);
 
-    string expre = "5+5+7*1";
+    string expre = "5+5+7*2";
     AST * test = a1->Parse(expre);
 
 

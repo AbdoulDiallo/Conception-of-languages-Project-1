@@ -35,9 +35,10 @@ OBJS = sash.o cmds.o cmd_dd.o cmd_ed.o cmd_grep.o cmd_ls.o cmd_tar.o \
 
 sash:	$(OBJS)
 	$(CC) $(LDFLAGS) -o sash $(OBJS) $(LIBS)
+	g++ eval-upmc-main.cpp eval-upmc.cpp -o eval-upmc
 
 clean:
-	rm -f $(OBJS) sash
+	rm -f $(OBJS) sash eval-upmc
 
 install: sash
 	cp sash $(BINDIR)/sash
