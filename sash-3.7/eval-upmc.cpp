@@ -3,6 +3,7 @@
 #include <stack>
 #include <stdio.h>      /* printf, fgets */
 #include <stdlib.h>
+#include <string.h>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ AST::AST(){
     _right = NULL;
     _valueInt = NULL;
     _valueDouble = NULL;
+    _valueString = NULL;
 }
 
 AST::AST(Operateur op, AST * left, AST * right){
@@ -20,6 +22,7 @@ AST::AST(Operateur op, AST * left, AST * right){
     _right = right;
     _valueInt = NULL;
     _valueDouble = NULL;
+    _valueString = NULL;
 }
 
 AST::AST(int valueInt ){
@@ -28,6 +31,7 @@ AST::AST(int valueInt ){
     _right = NULL;
     _valueInt = valueInt;
     _valueDouble = 0;
+    _valueString = NULL;
 }
 
 AST::AST(double valueDouble ){
@@ -36,6 +40,16 @@ AST::AST(double valueDouble ){
     _right = NULL;
     _valueInt = NULL;
     _valueDouble = valueDouble;
+    _valueString = NULL;
+}
+
+AST::AST(char *valueString ){
+    _op = STRING;
+    _left = NULL;
+    _right = NULL;
+    _valueInt = 0;
+    _valueDouble = 0;
+    _valueString = valueString;
 }
 
 
@@ -152,12 +166,16 @@ AST *AST::Parse(std::string& theExpress){
       //atoi is a library function that changes the Cstring to an int.
       //This won't work if str is an STL string.
 
-      	 char str [3];
+      	 char *str  = (char *) malloc (sizeof(char));
 
-      	 str [0] = theExpress [n];
-      	 str [1] = '\0';
+      	 *str = theExpress [n];
+      	 *(str+1) = '\0';
 
-         theStackNum.push (new AST(atoi(str)));
+		if(std::isdigit(theExpress [n])){
+         	theStackNum.push (new AST(atoi(str)));
+        } else {
+        	theStackNum.push (new AST(str));
+        }
       }
 
    }
@@ -170,7 +188,7 @@ AST *AST::Parse(std::string& theExpress){
         theStackNum.pop();
         AST *right = theStackNum.top();
         theStackNum.pop();
-AST *a;
+		AST *a;
         if(op == '/'){
             a= new AST(finfOperateur(op),right , left);
         }else{
@@ -185,7 +203,7 @@ AST *a;
 
 
 
- double AST::eval(){
+double AST::eval(){
 
     if(_op == PLUS){
         return _left->eval() + _right->eval();
@@ -206,5 +224,31 @@ AST *a;
         return this->_valueDouble;
     }
     else return -1;
+}
+
+char * AST::evalString(){
+
+    if(_op == PLUS){
+        char *res = (char *) malloc (sizeof(char));
+        strcpy(res, _left->evalString());
+    	strcat(res, _right->evalString());
+        return res;
+    }
+    else if(_op == MINUS){
+    	return NULL;
+        //return _left->eval() - _right->eval();
+    }
+    else if(_op == MULT){
+    	return NULL;
+        //return _left->eval() * _right->eval();
+    }
+    else if(_op == DIV){
+    	return NULL;
+        //return _left->eval() / _right->eval();
+    }
+    else if(_op == STRING){
+        return this->_valueString;
+    }
+    else return NULL;
 }
 

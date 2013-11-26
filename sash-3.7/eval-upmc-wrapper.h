@@ -10,6 +10,8 @@ extern "C" {
 	
 	double eval_expr(char *expr);
 
+	char *eval_string_expr(char *expr);
+
 #ifdef __cplusplus
 }
 #endif

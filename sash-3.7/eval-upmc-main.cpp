@@ -20,6 +20,8 @@ int main()
 
     string expre = "5+5+7*2";
     AST * test = a1->Parse(expre);
+    expre = "a+b+c+d+e+f+g";
+    AST * test1 = a1->Parse(expre);
 
 
     /*cout << a->GetvalueDouble()<< endl;
@@ -28,6 +30,10 @@ int main()
     double res =  test->eval();
 
     cout << res<< endl;
+    
+    char * ress =  test1->evalString();
+
+    cout << ress<< endl;
 
     return 0;
 

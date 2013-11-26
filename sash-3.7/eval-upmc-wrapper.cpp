@@ -18,4 +18,14 @@ extern "C" {
 		}
 		return -10000;
 	}
+
+	char *eval_string_expr(char *expr){
+		AST* a = new AST(1);
+                if((expr != NULL) && (strcmp(expr, "") != 0)){
+                        std::string str(expr);
+                        AST* b = a->Parse(str);
+                        return b->evalString();
+                }
+                return NULL;
+	}
 }

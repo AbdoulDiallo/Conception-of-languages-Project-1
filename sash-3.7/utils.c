@@ -769,7 +769,13 @@ makeArgs(const char * cmd, int * retArgc, const char *** retArgv)
 						}
 					} while((ch != '\0') && (ch != ']'));
 					argument = (char *) malloc (sizeof(char));
-					sprintf(argument, "%.2f", eval_expr(exprToEvaluate));
+					if((exprToEvaluate != NULL) && 
+						(exprToEvaluate != "") &&
+						isdigit(*exprToEvaluate)){
+						sprintf(argument, "%.2f", eval_expr(exprToEvaluate));
+					} else {
+						sprintf(argument, "%s", eval_string_expr(exprToEvaluate));
+					}
 				}
 			}
 
